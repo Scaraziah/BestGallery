@@ -22,6 +22,8 @@ router.post('/', async (req, res) => {
 
         const post = new Post ({
             name: req.body.name,
+            lat: req.body.lat,
+            lng: req.body.lng,
             text: req.body.text
         });
 
@@ -41,6 +43,8 @@ router.put('/:id', async (req, res) => {
             req.params.id,
             {
                 text: req.body.text,
+                lat: req.body.lat,
+                lng: req.body.lng,
             }
         );
 

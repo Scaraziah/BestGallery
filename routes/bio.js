@@ -22,6 +22,7 @@ router.post('/', async (req, res) => {
 
         const bio = new Bio ({
             name: req.body.name,
+            proPic: req.body.proPic,
             text: req.body.text
         });
 
