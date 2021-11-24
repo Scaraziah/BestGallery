@@ -3,18 +3,21 @@ const Joi = require('joi');
 const config = require('config');
 const jwt = require('jsonwebtoken');
 
+
+
 const postSchema = new mongoose.Schema({
     name: {type: String, required: true, minlength: 5, maxlength: 50 },
     text: {type: String, required: true, minlength: 1, maxlength: 1000},
     lat: {type : Number, required: true},
     lng: {type : Number, required: true},
+    prisePic: {type: Array, required: true },
     likes: {type: Number, default: 0},
     timeStamp: {type: Date, default: Date.now()},
 });
 
 const bioSchema = new mongoose.Schema({
     name: {type: String, required: true, minlength: 5, maxlength: 50 },
-    proPic: {type: String, required: true, minlength: 5, maxlength: 5000 },
+    proPic: {type: String, required: true },
     text: {type: String, required: true, minlength: 1, maxlength: 1000},
     timeStamp: {type: Date, default: Date.now()},
 })
@@ -53,6 +56,7 @@ function validatePost(post) {
         name: Joi.string().min(5).max(50).required(),
         lat: Joi.number().required(),
         lng: Joi.number().required(),
+        prisePic: Joi.array().items(Joi.string()),
         text: Joi.string().min(1).max(1000).required(),
     });
     return schema.validate(post);
@@ -61,7 +65,7 @@ function validatePost(post) {
 function validateBio(bio) {
     const schema = Joi.object({
         name: Joi.string().min(5).max(50).required(),
-        proPic: Joi.string().min(5).max(5000).required(),
+        proPic: Joi.string().required(),
         text: Joi.string().min(1).max(1000).required(),
     });
     return schema.validate(bio);

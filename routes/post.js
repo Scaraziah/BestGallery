@@ -24,6 +24,7 @@ router.post('/', async (req, res) => {
             name: req.body.name,
             lat: req.body.lat,
             lng: req.body.lng,
+            prisePic: req.body.prisePic,
             text: req.body.text
         });
 
@@ -45,6 +46,7 @@ router.put('/:id', async (req, res) => {
                 text: req.body.text,
                 lat: req.body.lat,
                 lng: req.body.lng,
+                prisePic: req.body.prisePic,
             }
         );
 
@@ -80,6 +82,21 @@ router.put('/likes/:id', async (req, res) => {
         return res.status(400).send(`The post with id "${req.params.id}" does not exist.`);
         
         post.likes++
+        
+        await post.save();
+        return res.send(post);
+    } catch (ex) {
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+});
+
+router.put('/prisePic/:id', async (req, res) => {
+    try {
+    const post = await Post.findById(req.params.id);
+        if (!post)   
+        return res.status(400).send(`The post with id "${req.params.id}" does not exist.`);
+        
+        push(prisePic)
         
         await post.save();
         return res.send(post);
