@@ -42,6 +42,18 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.delete('/:id', async (req, res) => {
+    try {
 
+        const bio = await Bio.findByIdAndRemove(req.params.id);
+
+        if (!bio)
+            return res.status(400).send(`The post with the id: "${req.params.id}" does not exist`);
+
+            return res.send(bio);
+    } catch(ex) {
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+});
 
 module.exports = router;

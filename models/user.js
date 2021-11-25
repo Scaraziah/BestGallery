@@ -10,6 +10,7 @@ const postSchema = new mongoose.Schema({
     text: {type: String, required: true, minlength: 1, maxlength: 1000},
     lat: {type : Number, required: true},
     lng: {type : Number, required: true},
+    huntType: {type: String, required: true, minlength: 5, maxlength: 8 },
     prisePic: {type: Array, required: true },
     likes: {type: Number, default: 0},
     timeStamp: {type: Date, default: Date.now()},
@@ -56,6 +57,7 @@ function validatePost(post) {
         name: Joi.string().min(5).max(50).required(),
         lat: Joi.number().required(),
         lng: Joi.number().required(),
+        huntType: Joi.string().min(1).max(8).required(),
         prisePic: Joi.array().items(Joi.string()),
         text: Joi.string().min(1).max(1000).required(),
     });
