@@ -4,6 +4,15 @@ const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
 
+router.get('/', async (req,res) => {
+    try{
+        const post = await Post.find();
+        return res.send(post);
+    } catch (ex) {
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+});
+
 router.get('/:name', async (req, res) => {
     try {
         const post = await Post.find({name: req.params.name});
@@ -83,6 +92,21 @@ router.put('/likes/:id', async (req, res) => {
         return res.status(400).send(`The post with id "${req.params.id}" does not exist.`);
         
         post.likes++
+        
+        await post.save();
+        return res.send(post);
+    } catch (ex) {
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+});
+
+router.put('/dislikes/:id', async (req, res) => {
+    try {
+    const post = await Post.findById(req.params.id);
+        if (!post)   
+        return res.status(400).send(`The post with id "${req.params.id}" does not exist.`);
+        
+        post.dislikes++
         
         await post.save();
         return res.send(post);

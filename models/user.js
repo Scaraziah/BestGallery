@@ -13,6 +13,7 @@ const postSchema = new mongoose.Schema({
     huntType: {type: String, required: true, minlength: 5, maxlength: 8 },
     prisePic: {type: Array, required: true },
     likes: {type: Number, default: 0},
+    dislikes: {type: Number, default: 0},
     timeStamp: {type: Date, default: Date.now()},
 });
 
@@ -29,7 +30,6 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true, maxlength: 1024, minlength: 5 },
     posts: [{type: postSchema}],
     bio: [{type: bioSchema}],
-    // picture: {type: as a string and bring in a 3rd party api },
     isAdmin: { type: Boolean, default: false },
 });
 
