@@ -1,8 +1,28 @@
-const { Post, validatePost } = require('../models/user');
+const { Post, Reply, validatePost, validateReply } = require('../models/user');
 const bcrypt = require('bcrypt');
 const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
+
+router.post('/reply/:id', async (req, res) => {
+    try {
+        const { error } = validateReply(req.body);
+        if (error) return res.status(400).send(error);
+        
+        const comment = await Post.findById(req.params.id);
+        if (!comment) return res.status(400).send(`The comment with id "${req.params.id}" does not exist.`);
+        
+        const reply = new Reply({
+            text: req.body.text
+        })
+        comment.replies.push(reply);
+        
+        await comment.save();
+        return res.send(comment);
+    } catch (ex) {
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+});
 
 router.get('/', async (req,res) => {
     try{
