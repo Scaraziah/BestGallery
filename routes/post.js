@@ -42,6 +42,15 @@ router.get('/:name', async (req, res) => {
     }
 });
 
+router.get('/editPost/:id', async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        return res.send(post);
+    } catch (ex) { 
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+});
+
 router.post('/', async (req, res) => {
     try {
 
@@ -76,7 +85,6 @@ router.put('/:id', async (req, res) => {
                 text: req.body.text,
                 lat: req.body.lat,
                 lng: req.body.lng,
-                prisePic: req.body.prisePic,
             }
         );
 

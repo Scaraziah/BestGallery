@@ -13,7 +13,7 @@ const postSchema = new mongoose.Schema({
     text: {type: String, required: true, minlength: 1, maxlength: 1000},
     lat: {type : Number, required: true},
     lng: {type : Number, required: true},
-    huntType: {type: String, required: true, minlength: 5, maxlength: 8 },
+    huntType: {type: String, required: true, minlength: 4, maxlength: 8 },
     prisePic: {type: Array, required: true },
     likes: {type: Number, default: 0},
     dislikes: {type: Number, default: 0},

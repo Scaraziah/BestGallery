@@ -56,4 +56,28 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+router.put('/:id', async (req, res) => {
+    try {
+        const { error } = Bio(req.body);
+        if (error) return res.status(400).send(error);
+
+        const bio = await Bio.findByIdAndUpdate(
+            req.params.id,
+            {
+                proPic: req.body.proPic,
+                text: req.body.text
+            }
+        );
+
+        if (!bio)
+            return res.send(400).send(`The user with the id: "${req.params.id}" does not exist`);
+
+            await bio.save();
+
+            return res.send(bio)
+    } catch (ex) {
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+});
+
 module.exports = router;
