@@ -33,7 +33,7 @@ router.get('/', async (req,res) => {
     }
 });
 
-router.get('/:name', async (req, res) => {
+router.get('/name/:name', async (req, res) => {
     try {
         const post = await Post.find({name: req.params.name});
         return res.send(post);
@@ -43,6 +43,15 @@ router.get('/:name', async (req, res) => {
 });
 
 router.get('/editPost/:id', async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        return res.send(post);
+    } catch (ex) { 
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+});
+
+router.get('/photoGallery/:id', async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         return res.send(post);
